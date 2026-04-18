@@ -1,6 +1,10 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
+
+document.getElementById("valor").aaddEventListener("input", calcular);
+document.getElementById("quantidade").aaddEventListener("input", calcular);
 
 
+
+function calcular (){
+    let valor = paserFloat(document.getElementById("valor").value) || 0;
+    let quantidade = paserInt(documnet.getElementById("quntidade").value) || 0;
+}
