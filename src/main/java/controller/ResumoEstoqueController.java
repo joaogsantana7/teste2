@@ -42,11 +42,12 @@ public class ResumoEstoqueController extends HttpServlet{
             
             Map<String, Integer> resultado = new HashMap<>();
             
-            String json = new Gson().toJson(resultado);
+           
             resultado.put("entrada", entrada);
             resultado.put("saida", saida);
             resultado.put("total", total);
             
+            String json = new Gson().toJson(resultado);
             
             response.setContentType("application/json");
             response.getWriter().write(json);

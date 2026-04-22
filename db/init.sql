@@ -50,7 +50,7 @@ CREATE TABLE produtos(
     data_fabricante DATE,
     data_vencimento DATE,
     quantidade BIGINT,
-    vslor DECIMAL,
     valor DECIMAL(10,2),
-    total DECIMAL(10,2)
+    total DECIMAL(10,2),
+    status varchar(250)
 );
