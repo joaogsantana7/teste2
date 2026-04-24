@@ -3,6 +3,7 @@ package dao;
 
 import connection.ConnectionFactory;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,14 +42,38 @@ public class CadastroProdutosDAO {
         }
     }
     
-    public List<CadastroProdutoModel> listar(){
+    public List<CadastroProdutoModel> listarComFiltro(String nome, String tipo, String data){
         List<CadastroProdutoModel> lista = new ArrayList<>();
         
-        String sql = "SELECT * FROM produtos";
+        StringBuilder sql = new StringBuilder("SELECT * FROM produtos");
+        
+        if(nome != null && !nome.isEmpty()){
+            sql.append(" AND LOWER(nome_produto) LIKE ?");
+        }
+        if(tipo != null && !tipo.isEmpty()){
+            sql.append(" AND status = ?");
+        }
+        
+        if(data != null && !data.isEmpty()){
+            sql.append(" AND data_fabricação = ?");
+        }
         
         try(Connection conn = ConnectionFactory.getConnection();
-            PreparedStatement stmt = conn.prepareCall(sql);
-            ResultSet rs = stmt.executeQuery()) {
+            PreparedStatement stmt = conn.prepareCall(sql.toString())){
+            
+            int index = 1;
+            
+            if(nome != null && !nome.isEmpty()){
+                stmt.setString(index++, "%" + nome.toLowerCase() + "%");
+            }
+            if(tipo != null && !tipo.isEmpty()){
+                stmt.setString(index++, "%" + tipo.toLowerCase() + "%");
+            }
+            if(data != null && !data.isEmpty()){
+                stmt.setString(index++, data);
+            }
+            
+            ResultSet rs = stmt.executeQuery(); 
             
             while(rs.next()){
                 CadastroProdutoModel p = new CadastroProdutoModel();
@@ -65,9 +90,9 @@ public class CadastroProdutosDAO {
                 p.setStatus(rs.getString("status"));
             }
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
-        return null;
+        return lista;
     }
 }
     

@@ -1,11 +1,15 @@
 async function filtroEstoque(){
-    try{
+    try{    
+    const nome = document.getElementById("pesquisarNome").value;
+    const tipo = document.getElementById("tipoMovimentacao").value;
+    const data = document.getElementById("filtroData").value;
+
     const response = await fetch("http://localhost:8080/api/estoque");
     const daos = await response.json();
 
-    const nome = document.getElementById("pesquisarNome").value.toLocalCase();
-    const tipo = document.getElementById("tipoMovimentacao").value;
-    const data = document.getElementById("filtroData").value;
+
+    const url = `http://localhost:8080/api/estoque?nome=${encodeURIComponent(nome)}
+                &tipo=${encodeURIComponent(tipo)}&data=${encodeURIComponent(data)}`;
 
     const tabela = document.getElementById("corpoTabela");
     tabela.innerHTML = "";
@@ -37,3 +41,5 @@ async function filtroEstoque(){
         console.error("erro ao filtro", erro);
     }
 }
+
+document.getElementById("btnPesquisar").addEventListener("click", filtroEstoque);

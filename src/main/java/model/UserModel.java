@@ -5,9 +5,14 @@ public class UserModel {
     private int id;
     private String username;
     private String password;
-    
-    public UserModel(){
-        
+    private String funcao;
+
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(String funcao) {
+        this.funcao = funcao;
     }
     
     public String getUsername(){
