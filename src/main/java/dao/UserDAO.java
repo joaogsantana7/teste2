@@ -8,14 +8,15 @@ import util.SenhaUtil;
 
 public class UserDAO {
     
-    public boolean  validarLogin(UserModel userModel) {
+    public UserModel  validarLogin(UserModel userModel) {
         String sql = 
                 "SELECT * FROM users WHERE username= ? ";
         
         try (var con = ConnectionFactory.getConnection()){
                         
-            PreparedStatement stmt =
-                    con.prepareStatement(sql);
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
+            
             stmt.setString(1, userModel.getUsername());
             
             ResultSet rs = stmt.executeQuery();
@@ -28,10 +29,8 @@ public class UserDAO {
                          
                     hashBanco
                 );
-               
-            }
-            
-             if(senhaValida){
+                
+                 if(senhaValida){
                     UserModel user = new UserModel();
                     user.setUsername(rs.getString("username"));
                     user.setPassword(hashBanco);
@@ -39,6 +38,12 @@ public class UserDAO {
                     
                     return user;
                 }
+             
+             return null;
+               
+            }
+            
+            
            
         } catch (Exception e) {
             e.printStackTrace();
